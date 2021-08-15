@@ -8,9 +8,10 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import me.dimasmiftah.tapmatch.models.BoardSize
 import kotlin.math.min
 
-class MemoryBoardAdaper(private val context: Context, private val numPieces: Int) : RecyclerView.Adapter<MemoryBoardAdaper.ViewHolder>() {
+class MemoryBoardAdaper(private val context: Context, private val boardSize: BoardSize, private val cardImages: List<Int>) : RecyclerView.Adapter<MemoryBoardAdaper.ViewHolder>() {
 
     companion object {
         private const val MARGIN_SIZE = 10
@@ -18,8 +19,8 @@ class MemoryBoardAdaper(private val context: Context, private val numPieces: Int
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val cardWith = parent.width / 2 - (2 * MARGIN_SIZE)
-        val cardHeight = parent.height / 4 - (2 * MARGIN_SIZE)
+        val cardWith = parent.width / boardSize.getWidth() - (2 * MARGIN_SIZE)
+        val cardHeight = parent.height / boardSize.getHeight() - (2 * MARGIN_SIZE)
         val cardSideLength = min(cardWith, cardHeight)
         val view = LayoutInflater.from(context).inflate(R.layout.memory_card, parent, false)
         val layoutParams = view.findViewById<CardView>(R.id.cardView).layoutParams as ViewGroup.MarginLayoutParams
@@ -29,7 +30,7 @@ class MemoryBoardAdaper(private val context: Context, private val numPieces: Int
         return ViewHolder(view)
     }
 
-    override fun getItemCount() = numPieces
+    override fun getItemCount() = boardSize.numCards
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(position)
@@ -39,6 +40,7 @@ class MemoryBoardAdaper(private val context: Context, private val numPieces: Int
         private val imageButton = itemView.findViewById<ImageButton>(R.id.imageButton)
 
         fun bind(position: Int) {
+            imageButton.setImageResource(cardImages[position])
             imageButton.setOnClickListener {
                 Log.i(TAG, "Clicked on position $position")
             }
