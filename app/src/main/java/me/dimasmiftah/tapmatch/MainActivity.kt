@@ -1,6 +1,7 @@
 package me.dimasmiftah.tapmatch
 
 import android.animation.ArgbEvaluator
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -20,11 +21,13 @@ import me.dimasmiftah.tapmatch.models.BoardSize
 import me.dimasmiftah.tapmatch.models.MemoryCard
 import me.dimasmiftah.tapmatch.models.MemoryGame
 import me.dimasmiftah.tapmatch.utils.DEFAULT_ICONS
+import me.dimasmiftah.tapmatch.utils.EXTRA_BOARD_SIZE
 
 class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val TAG = "MainActivity"
+        private const val CREATE_REQUEST_CODE = 103
     }
 
     private lateinit var clRoot: ConstraintLayout
@@ -67,8 +70,29 @@ class MainActivity : AppCompatActivity() {
                 showNewSizeDialog()
                 return true
             }
+            R.id.mi_custom -> {
+                showCreationDialog()
+                return true
+            }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun showCreationDialog() {
+        val boardSizeView = LayoutInflater.from(this).inflate(R.layout.dialog_board_size, null)
+        val radioGroupSize = boardSizeView.findViewById<RadioGroup>(R.id.radioGroup)
+        showAlertDialog("Create your own memory board", boardSizeView, View.OnClickListener {
+            // Set a new value for the board size
+            val desiredBoardSize = when (radioGroupSize.checkedRadioButtonId){
+                R.id.rbEasy -> BoardSize.EASY
+                R.id.rbMedium -> BoardSize.MEDIUM
+                else -> BoardSize.HARD
+            }
+            // Navigate to a new activity
+            val intent = Intent(this, CreateActivity::class.java)
+            intent.putExtra(EXTRA_BOARD_SIZE, desiredBoardSize)
+            startActivityForResult(intent, CREATE_REQUEST_CODE)
+        })
     }
 
     private fun showNewSizeDialog() {
