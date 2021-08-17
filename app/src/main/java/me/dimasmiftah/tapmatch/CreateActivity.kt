@@ -236,7 +236,7 @@ class CreateActivity : AppCompatActivity() {
                     .setTitle("Upload complete! Let's play your game '$gameName'")
                     .setPositiveButton("OK") { _, _ ->
                         val resultData = Intent()
-                        resultData.putExtra(EXTRA_NAME_NAME, gameName)
+                        resultData.putExtra(EXTRA_GAME_NAME, gameName)
                         setResult(Activity.RESULT_OK, resultData)
                         finish()
                     }.show()

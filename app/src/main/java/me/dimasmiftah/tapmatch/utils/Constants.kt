@@ -2,7 +2,7 @@ package me.dimasmiftah.tapmatch.utils
 
 import me.dimasmiftah.tapmatch.R
 
-const val EXTRA_NAME_NAME = "EXTRA_NAME_NAME"
+const val EXTRA_GAME_NAME = "EXTRA_GAME_NAME"
 const val EXTRA_BOARD_SIZE = "EXTRA_BOARD_SIZE"
 val DEFAULT_ICONS = listOf (
         R.drawable.ic_face,
